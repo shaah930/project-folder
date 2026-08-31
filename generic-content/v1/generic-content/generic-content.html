@@ -1,0 +1,247 @@
+<!--
+  Generic Content Component
+  Renders multiple content items with grouped structure: titles, descriptions, ctas, cards
+-->
+<sly data-sly-use.model="dsm.foundation.core.models.GenericContentModel">
+    <sly data-sly-test="${model.dsmModule && wcmmode.edit}"></sly>
+        <p><strong>${model.dsmModule}</strong></p>
+    </sly>
+    <div class="cmp-generic-content" data-sly-test="${model.hasItems}">
+        <div class="cmp-generic-content__items">
+            
+            <!-- Render Titles -->
+            <sly data-sly-list.title="${model.titles}">
+                <div class="cmp-generic-content__item cmp-generic-content__item--title">
+                    <h1 class="cmp-generic-content__title" data-sly-test="${title.title && title.headingLevel == 'h1'}">
+                        ${title.title @ context='html'}
+                    </h1>
+                    <h2 class="cmp-generic-content__title" data-sly-test="${title.title && (title.headingLevel == 'h2' || !title.headingLevel)}">
+                        ${title.title @ context='html'}
+                    </h2>
+                    <h3 class="cmp-generic-content__title" data-sly-test="${title.title && title.headingLevel == 'h3'}">
+                        ${title.title @ context='html'}
+                    </h3>
+                    <h4 class="cmp-generic-content__title" data-sly-test="${title.title && title.headingLevel == 'h4'}">
+                        ${title.title @ context='html'}
+                    </h4>
+                    <h5 class="cmp-generic-content__title" data-sly-test="${title.title && title.headingLevel == 'h5'}">
+                        ${title.title @ context='html'}
+                    </h5>
+                    <h6 class="cmp-generic-content__title" data-sly-test="${title.title && title.headingLevel == 'h6'}">
+                        ${title.title @ context='html'}
+                    </h6>
+                </div>
+            </sly>
+            
+            <!-- Render Descriptions -->
+            <sly data-sly-list.description="${model.descriptions}">
+                <div class="cmp-generic-content__item cmp-generic-content__item--description">
+                    <p class="cmp-generic-content__description" data-sly-test="${description.descriptionText}">
+                        ${description.descriptionText @ context='html'}
+                    </p>
+                </div>
+            </sly>
+            
+            <!-- Render CTAs -->
+            <div class="cmp-generic-content__item cmp-generic-content__item--cta" data-sly-test="${model.ctasList}">
+                <div class="cmp-generic-content__ctas">
+                    <sly data-sly-list.cta="${model.ctasList}">
+                        <div class="cmp-generic-content__cta" data-sly-test="${cta.label && cta.link}">
+                            <a href="${cta.link @ extension='html'}" class="cmp-generic-content__cta-link" data-sly-attribute.target="${cta.newtab ? '_blank' : ''}" data-sly-attribute.data-type="${cta.type}">
+                                ${cta.label @ context='text'}
+                            </a>
+                        </div>
+                    </sly>
+                </div>
+            </div>
+            
+            <!-- Render Cards -->
+            <sly data-sly-list.card="${model.cards}">
+                <div class="cmp-generic-content__item cmp-generic-content__item--card">
+                    <div class="cmp-generic-content__card">
+                        <div class="cmp-generic-content__card-image" data-sly-test="${card.cardImage}">
+                            <img src="${card.cardImage}" alt="${card.cardTitle @ context='attribute'}" loading="lazy"/>
+                        </div>
+                        <div class="cmp-generic-content__card-content">
+                            <div class="cmp-generic-content__card-eyebrow" data-sly-test="${card.cardEyebrow}">
+                                ${card.cardEyebrow @ context='text'}
+                            </div>
+                            <h3 class="cmp-generic-content__card-title" data-sly-test="${card.cardTitle}">
+                                ${card.cardTitle @ context='html'}
+                            </h3>
+                            <p class="cmp-generic-content__card-description" data-sly-test="${card.cardDescription}">
+                                ${card.cardDescription @ context='html'}
+                            </p>
+                            <div class="cmp-generic-content__card-link" data-sly-test="${card.cardLinkLabel && card.cardLinkUrl}">
+                                <a href="${card.cardLinkUrl @ extension='html'}" class="cmp-generic-content__card-link-anchor">
+                                    ${card.cardLinkLabel @ context='text'}
+                                </a>
+                            </div>
+                            <div class="cmp-generic-content__card-ctas" data-sly-test="${card.cardCtas}">
+                                <sly data-sly-list.cta="${card.cardCtas}">
+                                    <div class="cmp-generic-content__card-cta" data-sly-test="${cta.label && cta.link}">
+                                        <a href="${cta.link @ extension='html'}" class="cmp-generic-content__card-cta-link" data-sly-attribute.target="${cta.newtab ? '_blank' : ''}" data-sly-attribute.data-type="${cta.type}">
+                                            ${cta.label @ context='text'}
+                                        </a>
+                                    </div>
+                                </sly>
+                            </div>
+                            <div class="cmp-generic-content__card-compare-list" data-sly-test="${card.compareList}">
+                                <ul class="cmp-generic-content__compare-list">
+                                    <sly data-sly-list.item="${card.compareList}">
+                                        <li class="cmp-generic-content__compare-item" data-sly-test="${item.label}">
+                                            <span class="cmp-generic-content__compare-icon" data-sly-test="${item.showIcon}">
+                                                <span class="icon" data-sly-attribute.class="${item.isChecked ? 'icon-check' : 'icon-close'}"></span>
+                                            </span>
+                                            <span class="cmp-generic-content__compare-label" data-sly-attribute.class="${item.isChecked ? 'checked' : 'unchecked'}">
+                                                ${item.label @ context='text'}
+                                            </span>
+                                        </li>
+                                    </sly>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </sly>
+            
+        </div>
+        
+        <!-- Author Preview: Settings -->
+        <sly data-sly-test="${model.settings && wcmmode.edit}">
+            <div class="cmp-generic-content__author-preview">
+                <h4 class="cmp-generic-content__author-preview-heading">⚙️ Settings</h4>
+                <dl class="cmp-generic-content__author-preview-list">
+                    <sly data-sly-test="${model.settings.eyebrow}">
+                        <dt>Eyebrow:</dt>
+                        <dd>${model.settings.eyebrow}</dd>
+                    </sly>
+                    <sly data-sly-test="${model.settings.subheading}">
+                        <dt>Subheading:</dt>
+                        <dd>${model.settings.subheading}</dd>
+                    </sly>
+                    <sly data-sly-test="${model.settings.textAlignment}">
+                        <dt>Text Alignment:</dt>
+                        <dd>${model.settings.textAlignment}</dd>
+                    </sly>
+                    <sly data-sly-test="${model.settings.backgroundImage}">
+                        <dt>Background Image:</dt>
+                        <dd>${model.settings.backgroundImage}</dd>
+                    </sly>
+                    <sly data-sly-test="${model.settings.overlayOpacity}">
+                        <dt>Overlay Opacity:</dt>
+                        <dd>${model.settings.overlayOpacity}%</dd>
+                    </sly>
+                    <sly data-sly-test="${model.settings.themeModifier}">
+                        <dt>Theme:</dt>
+                        <dd>${model.settings.themeModifier}</dd>
+                    </sly>
+                </dl>
+            </div>
+        </sly>
+        
+        <!-- Author Preview: Image -->
+        <sly data-sly-test="${model.image && wcmmode.edit}">
+            <div class="cmp-generic-content__author-preview">
+                <h4 class="cmp-generic-content__author-preview-heading">🖼️ Image</h4>
+                <dl class="cmp-generic-content__author-preview-list">
+                    <sly data-sly-test="${model.image.url}">
+                        <dt>Image URL:</dt>
+                        <dd>${model.image.url}</dd>
+                    </sly>
+                    <sly data-sly-test="${model.image.alt}">
+                        <dt>Alt Text:</dt>
+                        <dd>${model.image.alt}</dd>
+                    </sly>
+                    <sly data-sly-test="${model.image.position}">
+                        <dt>Position:</dt>
+                        <dd>${model.image.position}</dd>
+                    </sly>
+                    <sly data-sly-test="${model.image.orientation}">
+                        <dt>Orientation:</dt>
+                        <dd>${model.image.orientation}</dd>
+                    </sly>
+                    <dt>Photo Overlay:</dt>
+                    <dd>${model.image.hasPhotoOverlay ? 'Yes' : 'No'}</dd>
+                    <dt>Image Padding:</dt>
+                    <dd>${model.image.hasImagePadding ? 'Yes' : 'No'}</dd>
+                    <sly data-sly-test="${model.image.gradientDirection}">
+                        <dt>Gradient Direction:</dt>
+                        <dd>${model.image.gradientDirection}</dd>
+                    </sly>
+                    <sly data-sly-test="${model.image.overlayOpacity}">
+                        <dt>Overlay Opacity:</dt>
+                        <dd>${model.image.overlayOpacity}%</dd>
+                    </sly>
+                </dl>
+            </div>
+        </sly>
+
+        <!-- Author Preview: Videos -->
+        <sly data-sly-test="${model.videos && wcmmode.edit}">
+            <div class="cmp-generic-content__author-preview">
+                <h4 class="cmp-generic-content__author-preview-heading">🎥 Videos (${model.videos.size} items)</h4>
+                <sly data-sly-list.video="${model.videos}">
+                    <div class="cmp-generic-content__author-preview-item" style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0;">
+                        <dl class="cmp-generic-content__author-preview-list">
+                            <sly data-sly-test="${video.url}">
+                                <dt>Video URL:</dt>
+                                <dd>${video.url}</dd>
+                            </sly>
+                            <sly data-sly-test="${video.heading}">
+                                <dt>Heading:</dt>
+                                <dd>${video.heading}</dd>
+                            </sly>
+                            <sly data-sly-test="${video.duration}">
+                                <dt>Duration:</dt>
+                                <dd>${video.duration}</dd>
+                            </sly>
+                            <sly data-sly-test="${video.alt}">
+                                <dt>Alt Text:</dt>
+                                <dd>${video.alt}</dd>
+                            </sly>
+                            <sly data-sly-test="${video.poster}">
+                                <dt>Poster Image:</dt>
+                                <dd>${video.poster}</dd>
+                            </sly>
+                            <sly data-sly-test="${video.placement}">
+                                <dt>Placement:</dt>
+                                <dd>${video.placement}</dd>
+                            </sly>
+                            <dt>Autoplay:</dt>
+                            <dd>${video.autoplay ? 'Yes' : 'No'}</dd>
+                            <dt>Loop:</dt>
+                            <dd>${video.loop ? 'Yes' : 'No'}</dd>
+                            <dt>Muted:</dt>
+                            <dd>${video.muted ? 'Yes' : 'No'}</dd>
+                            <dt>Controls:</dt>
+                            <dd>${video.controls ? 'Yes' : 'No'}</dd>
+                        </dl>
+                    </div>
+                </sly>
+            </div>
+        </sly>
+        
+        <!-- Author Preview: Custom Fields -->
+        <sly data-sly-test="${model.customFields && wcmmode.edit}">
+            <div class="cmp-generic-content__author-preview">
+                <h4 class="cmp-generic-content__author-preview-heading">📝 Custom Fields</h4>
+                <dl class="cmp-generic-content__author-preview-list">
+                    <sly data-sly-list.field="${model.customFields}">
+                        <dt>${field.key}:</dt>
+                        <dd>${field.value @ context='html'}</dd>
+                    </sly>
+                </dl>
+            </div>
+        </sly>
+        
+    </div>
+    
+    <!-- Placeholder for author mode when no items exist -->
+    <sly data-sly-test="${!model.hasItems && wcmmode.edit}">
+        <div class="cmp-generic-content__placeholder">
+            <p>Please configure this component by selecting content types in the DSM Module tab.</p>
+        </div>
+    </sly>
+</sly>
+
